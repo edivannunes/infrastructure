@@ -8,8 +8,17 @@ variable "bucket_name" {
   description = "description"
 }
 
-resource "aws_s3_bucket_website_configuration" "static_site_bucket" {
+resource "aws_s3_bucket" "static_site_bucket" {
   bucket = "static-site-${var.bucket_name}"
+
+  tags = {
+    Name        = "Static Site Bucket"
+    Environment = "Production"
+  }
+}
+
+resource "aws_s3_bucket_website_configuration" "static_site_bucket_website" {
+  bucket = aws_s3_bucket.static_site_bucket.id
 
   index_document {
     suffix = "index.html"
@@ -17,11 +26,6 @@ resource "aws_s3_bucket_website_configuration" "static_site_bucket" {
 
   error_document {
     key = "error.html"
-  }
-
-  tags = {
-    Name = "Static Site Bucket"
-    Environment = "Production"
   }
 
 
