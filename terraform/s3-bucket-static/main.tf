@@ -8,7 +8,7 @@ variable "bucket_name" {
   description = "description"
 }
 
-resource "aws_s3_bucket" "static_site_bucket" {
+resource "aws_s3_bucket_website_configuration" "static_site_bucket" {
   bucket = "static-site-${var.bucket_name}"
 
   index_document {
